@@ -1,0 +1,9 @@
+*.o
+vuln
+*.bin
+__pycache__/
+*.pyc
+.git/
+.gitignore
+*.md
+!challenge/README.md

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+    # Interactive environment for solving the challenge
+    ctf:
+      build: .
+      container_name: sgtechctf-pwn
+      stdin_open: true
+      tty: true
+      volumes:
+        - ./challenge:/ctf/challenge
+        - ./solution:/ctf/solution
+      working_dir: /ctf
+      cap_add:
+        - SYS_PTRACE
+        - SYS_ADMIN
+      security_opt:
+        - seccomp:unconfined
+      privileged: true
+
+    # Challenge server (exposes the vulnerable binary over network)
+    server:
+      build: .
+      container_name: sgtechctf-server
+      ports:
+        - "1337:1337"
+      command: >
+        socat TCP-LISTEN:1337,reuseaddr,fork
+        EXEC:"/ctf/challenge/vuln",pty,stderr,setsid,sigint,sane
+      restart: unless-stopped
