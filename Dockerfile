@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 ubuntu:22.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     build-essential \
     gcc \
-    lldb \
+    gdb \
     python3 \
     python3-pip \
     python3-dev \
@@ -29,6 +29,11 @@ RUN pip3 install --no-cache-dir \
     capstone \
     keystone-engine \
     unicorn
+
+# Install pwndbg for GDB
+RUN git clone https://github.com/pwndbg/pwndbg /opt/pwndbg \
+    && cd /opt/pwndbg \
+    && ./setup.sh
 
 # Create working directory
 WORKDIR /ctf
