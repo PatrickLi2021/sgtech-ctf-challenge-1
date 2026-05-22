@@ -22,7 +22,7 @@ void greet()
     char name[64];
 
     printf("Enter your name: ");
-    gets(name); // ❌ Vulnerability: buffer overflow
+    gets(name);
 
     printf("Hello, %s!\n", name);
 }
@@ -31,7 +31,7 @@ int main()
 {
     setvbuf(stdout, NULL, _IONBF, 0);
 
-    printf("Welcome to the Greeter App!\n");
+    printf("Welcome to my app!\n");
     greet();
 
     printf("Goodbye!\n");

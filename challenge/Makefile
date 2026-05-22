@@ -1,5 +1,5 @@
 all:
-	gcc vuln.c -o vuln -fno-stack-protector -no-pie -z execstack
+	gcc vuln.c -o vuln -fno-stack-protector -no-pie -z execstack -g
 
 clean:
 	rm -f vuln
