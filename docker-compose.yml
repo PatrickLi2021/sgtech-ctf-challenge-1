@@ -2,7 +2,7 @@ services:
     # Solver environment (for my own personal development/testing)
     ctf:
       build:
-        context: ./participant-download
+        context: .
         dockerfile: participant-download/Dockerfile
       container_name: sgtechctf-solver
       stdin_open: true

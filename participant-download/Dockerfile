@@ -30,7 +30,9 @@ RUN git clone https://github.com/slimm609/checksec.sh /opt/checksec \
 RUN pip3 install --no-cache-dir pwntools ropper capstone
 
 WORKDIR /ctf
-COPY challenge/vuln /ctf/vuln
-COPY challenge/vuln.c /ctf/vuln.c
+COPY challenge/vuln /ctf/challenge/vuln
+COPY challenge/vuln.c /ctf/challenge/vuln.c
+COPY challenge/Makefile /ctf/challenge/Makefile
+COPY challenge/flag.txt /ctf/challenge/flag.txt
 
 CMD ["/bin/bash"]
