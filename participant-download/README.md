@@ -1,5 +1,12 @@
 # Buffer Overflow Challenge - Solver Kit
 
+## Challenge Description
+This app is a simple Greeter function that asks for your name and says "hello". However, there's a hidden function that prints the flag. Can you find a way to reach it and capture the flag?
+
+**Category:** Binary Exploitation (pwn)
+**Difficulty:** Beginner
+**Remote:** `nc <host> 1337`
+
 ## Quick Start
 
 ```bash
@@ -7,19 +14,22 @@ docker build -t ctf-solver .
 docker run -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined ctf-solver
 ```
 
+Once you run those 2 commands, you'll land in `/ctf` with the challenge files in `./challenge/`.
+
 ## What's Included
 
-- `vuln` - the vulnerable x86-64 binary
-- `vuln.c` - the source code of the vulnerable binary
+- `challenge/vuln` - the vulnerable x86-64 binary
+- `challenge/vuln.c` - the source code of the vulnerable binary
+- `challenge/Makefile` - Shows how the binary was compiled
 - `Dockerfile` - pre-built solver environment with GDB, pwntools, checksec, etc.
 
-## Inside the Container
+## Tools Inside the Container
 
 ```bash
-# Check protections
+# Displays binary security protections
 checksec --file=./vuln
 
-# Find interesting functions
+# Disassemble the binary to find function addresses
 objdump -d ./vuln | grep "<win>"
 
 # Debug with QEMU + GDB (needed on Apple Silicon)

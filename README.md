@@ -7,7 +7,7 @@ This is a classic buffer overflow challenge where a vulnerable "Greeter App" bin
 
 ```
 sgtech-ctf-challenge-1/
-├── Dockerfile          # x86-64 Ubuntu 22.04 container with pwn tools
+├── Dockerfile.server   # Server container: compiles and serves the vulnerable binary over TCP
 ├── docker-compose.yml  # Two services: interactive CTF env + challenge server
 ├── challenge/
 │   ├── vuln.c          # Vulnerable C source code
@@ -16,13 +16,31 @@ sgtech-ctf-challenge-1/
 └── solution/
     └── exploit.py      # pwntools exploit script
     └── README.md       # Exploit writeup
+└── participant-download/
+    └── Dockerfile      # Solver environment with GDB, pwntools, checksec
+    └── README.md       # Participant-facing instructions
 ```
 
 ## Docker Services
 | Service | Container Name | Purpose |
 |---------|------|-------------|
-| `ctf` | `sgtechctf-pwn` | Interactive shell for solving the challenge |
+| `ctf` | `sgtechctf-solver` | Interactive shell for solving the challenge |
 | `server` | `sgtechctf-server` | Exposes the binary over TCP on port 1337 via socat |
+
+### How the Server Works
+The `server` service:
+1. Compiles `vuln.c` with all protections disabled inside an x86-64 Ubuntu 22.04 container.
+2. Places a `flag.txt` in the binary's working directory.
+3. Uses `socat` to listen on port 1337. For each incoming TCP connection, it forks a new process running `./vuln`, bridging the binary's stdin/stdout to the TCP socket.
+
+When a participant connects with `nc <host> 1337`, they interact with a fresh instance of the binary as if it were running locally.
+
+## How the Solver Environment Works
+The `ctf` service provides participants with:
+- The pre-compiled `vuln` binary (for local analysis and debugging)
+- The source code `vuln.c`
+- Tools: GDB, pwntools, checksec, ropper, capstone, qemu-user
+
 
 ## Getting Started
 

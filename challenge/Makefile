@@ -3,3 +3,9 @@ all:
 
 clean:
 	rm -f vuln
+
+# Notes:
+# -fno-stack-protector: Disable stack canary checks
+# -no-pie: Disable position-independent executable
+# -z execstack: Make stack executable (for shellcode)
+# -g: Include debug information
